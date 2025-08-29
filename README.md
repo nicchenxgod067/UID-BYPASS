@@ -1,4 +1,4 @@
-# Bypass Tool Setup Guide
+# UID Bypass Setup Guide
 
 Follow these steps to install and run the **Bypass Tool**.
 
