@@ -1,0 +1,37 @@
+Bypass Setup Guide
+
+Follow these steps to set up and run the bypass tool.
+
+1. Install Python
+   - Ensure you have Python 3.13.7 installed.
+   - Verify with:
+     python --version
+
+2. Create a Virtual Environment
+   python -m venv venv
+   - If virtualenv is missing, install it:
+     pip install virtualenv
+
+3. Activate the Virtual Environment
+   - Windows (PowerShell):
+     venv\Scripts\Activate
+     If you get an execution policy error:
+       Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+   - macOS/Linux:
+     source venv/bin/activate
+
+4. Install Dependencies
+   pip install -r requirements.txt
+
+5. Run the Server
+   mitmdump -s bypass.py
+
+6. Get Your Local IP and Configure Proxy
+   1. Open Command Prompt and type:
+      ipconfig
+   2. Note your IPv4 address.
+   3. Set your proxy before opeaning game:
+      [Your IPv4 Address]:8080
+   4. Once in the lobby, disable the proxy.
+
+Happy coding!
