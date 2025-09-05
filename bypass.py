@@ -1,4 +1,6 @@
 import binascii
+import os
+import sys
 from mitmproxy import http
 from mitmproxy import ctx
 import decrypt
@@ -65,3 +67,33 @@ addons = [MajorLoginInterceptor()]
 def load(loader) -> None:
     ctx.options.ssl_insecure = True
     ctx.options.confdir = "."
+
+
+if __name__ == "__main__":
+    try:
+        from mitmproxy.tools.main import mitmdump as mitmdump_entry
+    except Exception as import_error:
+        # Ensure local site-packages (Silly installs with --prefix .local)
+        major = sys.version_info.major
+        minor = sys.version_info.minor
+        local_site = os.path.join(os.getcwd(), ".local", "lib", f"python{major}.{minor}", "site-packages")
+        if os.path.isdir(local_site) and local_site not in sys.path:
+            sys.path.insert(0, local_site)
+        from mitmproxy.tools.main import mitmdump as mitmdump_entry  # retry after path fix
+
+    listen_port = os.environ.get("PORT", "8080")
+    script_path = os.path.abspath(__file__)
+    sys.argv = [
+        "mitmdump",
+        "-s",
+        script_path,
+        "--listen-host",
+        "0.0.0.0",
+        "--listen-port",
+        str(listen_port),
+        "--set",
+        "confdir=.",
+        "--set",
+        "ssl_insecure=true",
+    ]
+    raise SystemExit(mitmdump_entry())
