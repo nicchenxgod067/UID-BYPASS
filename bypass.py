@@ -1,5 +1,6 @@
 import binascii
 from mitmproxy import http
+from mitmproxy import ctx
 import decrypt
 import proto
 import Login_pb2
@@ -59,3 +60,8 @@ class MajorLoginInterceptor:
 
 
 addons = [MajorLoginInterceptor()]
+
+
+def load(loader) -> None:
+    ctx.options.ssl_insecure = True
+    ctx.options.confdir = "."
